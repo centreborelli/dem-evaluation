@@ -1,0 +1,6 @@
+	--> Setting number of processing threads to: 4
+
+
+ERROR: File does not exist: /home/tristan/mvs-comparison/asp_runs/masterFinal/MasterFinal3/run/run-PC.tif.
+
+

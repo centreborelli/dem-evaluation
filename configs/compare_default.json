@@ -1,0 +1,50 @@
+{
+    "output_dir": "",
+    "input_ref": {
+      "path": "",
+      "zunit": "m"
+    },
+    "input_sec": {
+      "path": "",
+      "zunit": "m"
+    },
+    "coregistration": {
+      "method_name": "nuth_kaab_internal",
+      "estimated_initial_shift_x": 0,
+      "estimated_initial_shift_y": 0,
+      "save_optional_outputs": true,
+      "sampling_source": "sec"
+    },
+    "statistics": {
+      "alti-diff": {
+        "classification_layers": {
+          "global": {
+            "type": "global",
+            "metrics": [
+              "mean",
+              "median",
+              "max",
+              "min",
+              "sum",
+              {
+                "percentil_90": {
+                  "remove_outliers": false
+                }
+              },
+              "squared_sum",
+              "nmad",
+              "rmse",
+              "std"
+            ],
+            "remove_outliers": true,
+            "classes": {
+              "global": [
+                1
+              ]
+            }
+          }
+        },
+        "remove_outliers": true
+      }
+    }
+  }

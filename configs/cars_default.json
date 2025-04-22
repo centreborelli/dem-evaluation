@@ -1,0 +1,210 @@
+{
+    "pipeline": "default",
+    "orchestrator": {
+      "mode": "multiprocessing",
+      "nb_workers": 14,
+      "profiling": {
+        "mode": "cars_profiling",
+        "loop_testing": false
+      }
+    },
+    "inputs": {
+      "sensors": {
+        "one": {
+          "image": ""
+        },
+        "two": {
+          "image": ""
+        }
+      },
+      "roi": null,
+      "initial_elevation": {
+        "dem": null
+      }
+    },
+    "advanced": {
+      "save_intermediate_data": false,
+      "debug_with_roi": false,
+      "merging": false,
+      "use_epipolar_a_priori": false
+    },
+    "geometry_plugin": "SharelocGeometry",
+    "output": {
+      "directory": "",
+      "product_level": [
+        "dsm"
+      ],
+      "geoid": false,
+      "epsg": null,
+      "save_by_pair": false
+    },
+    "applications": {
+      "grid_generation": {
+        "save_intermediate_data": false,
+        "method": "epipolar",
+        "epi_step": 30
+      },
+      "resampling": {
+        "save_intermediate_data": false,
+        "method": "bicubic",
+        "strip_height": 60,
+        "interpolator_image": "bicubic",
+        "interpolator_color": "bicubic",
+        "interpolator_classif": "nearest",
+        "interpolator_mask": "nearest",
+        "step": 500
+      },
+      "hole_detection": {
+        "save_intermediate_data": false,
+        "method": "cloud_to_bbox"
+      },
+      "dense_match_filling.1": {
+        "save_intermediate_data": false,
+        "method": "zero_padding",
+        "classification": null
+      },
+      "dense_match_filling.2": {
+        "save_intermediate_data": false,
+        "method": "zero_padding",
+        "classification": null
+      },
+      "sparse_matching": {
+        "save_intermediate_data": false,
+        "method": "sift",
+        "disparity_margin": 0.02,
+        "elevation_delta_lower_bound": -1000,
+        "elevation_delta_upper_bound": 9000,
+        "strip_margin": 10,
+        "epipolar_error_upper_bound": 10.0,
+        "epipolar_error_maximum_bias": 0.0,
+        "disparity_outliers_rejection_percent": 0.1,
+        "minimum_nb_matches": 100,
+        "sift_matching_threshold": 0.7,
+        "sift_n_octave": 8,
+        "sift_n_scale_per_octave": 3,
+        "sift_peak_threshold": 4.0,
+        "sift_edge_threshold": 10.0,
+        "sift_magnification": 7.0,
+        "sift_window_size": 2,
+        "sift_back_matching": true,
+        "matches_filter_knn": 25,
+        "matches_filter_dev_factor": 3.0
+      },
+      "dense_matching": {
+        "save_intermediate_data": false,
+        "method": "census_sgm",
+        "min_epi_tile_size": 300,
+        "max_epi_tile_size": 1500,
+        "epipolar_tile_margin_in_percent": 60,
+        "min_elevation_offset": null,
+        "max_elevation_offset": null,
+        "disp_min_threshold": null,
+        "disp_max_threshold": null,
+        "perf_eta_max_ambiguity": 0.99,
+        "perf_eta_max_risk": 0.25,
+        "perf_eta_step": 0.04,
+        "perf_ambiguity_threshold": 0.6,
+        "use_cross_validation": false,
+        "use_global_disp_range": false,
+        "local_disp_grid_step": 30,
+        "disp_range_propagation_filter_size": 300,
+        "generate_performance_map": false,
+        "generate_confidence_intervals": false,
+        "loader": "pandora",
+        "loader_conf": {
+          "input": {},
+          "pipeline": {
+            "matching_cost": {
+              "matching_cost_method": "census",
+              "window_size": 5,
+              "subpix": 1
+            },
+            "optimization": {
+              "optimization_method": "sgm",
+              "overcounting": false,
+              "penalty": {
+                "P1": 8,
+                "P2": 32,
+                "p2_method": "constant",
+                "penalty_method": "sgm_penalty"
+              }
+            },
+            "cost_volume_confidence": {
+              "confidence_method": "ambiguity",
+              "eta_max": 0.7,
+              "eta_step": 0.01
+            },
+            "disparity": {
+              "disparity_method": "wta",
+              "invalid_disparity": "NaN"
+            },
+            "refinement": {
+              "refinement_method": "vfit"
+            },
+            "filter": {
+              "filter_method": "median",
+              "filter_size": 3
+            }
+          }
+        }
+      },
+      "triangulation": {
+        "save_intermediate_data": false,
+        "method": "line_of_sight_intersection",
+        "snap_to_img1": false
+      },
+      "dem_generation": {
+        "save_intermediate_data": false,
+        "method": "dichotomic",
+        "resolution": 200,
+        "margin": 6000,
+        "height_margin": 20,
+        "percentile": 3,
+        "min_number_matches": 100,
+        "min_dem": -500,
+        "max_dem": 1000,
+        "fillnodata_max_search_distance": 5
+      },
+      "point_cloud_outlier_removal.1": {
+        "save_intermediate_data": false,
+        "save_by_pair": false,
+        "method": "statistical",
+        "use_median": true,
+        "activated": false,
+        "k": 50,
+        "std_dev_factor": 5.0,
+        "half_epipolar_size": 5
+      },
+      "point_cloud_outlier_removal.2": {
+        "save_intermediate_data": false,
+        "save_by_pair": false,
+        "method": "statistical",
+        "use_median": true,
+        "activated": false,
+        "k": 50,
+        "std_dev_factor": 5.0,
+        "half_epipolar_size": 5
+      },
+      "pc_denoising": {
+        "save_intermediate_data": false,
+        "save_by_pair": false,
+        "method": "none"
+      },
+      "point_cloud_rasterization": {
+        "save_intermediate_data": false,
+        "method": "simple_gaussian",
+        "dsm_radius": 1,
+        "sigma": null,
+        "grid_points_division_factor": null,
+        "dsm_no_data": -32768,
+        "color_no_data": 0,
+        "color_dtype": null,
+        "msk_no_data": 255
+      },
+      "dsm_filling": {
+        "method": "bulldozer",
+        "activated": false,
+        "save_intermediate_data": false
+      }
+    }
+  }
