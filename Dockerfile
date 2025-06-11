@@ -21,10 +21,10 @@ RUN apt-get update && apt-get install -y python3 python3-pip && rm -rf /var/lib/
 WORKDIR /workspace
 
 # Install S2P
-RUN git clone https://github.com/centreborelli/s2p.git --recursive \
-    && pip install -e "./s2p[test]" \
+RUN git clone https://github.com/centreborelli/s2p-hd.git --recursive \
+    && pip install -e "./s2p-hd[test]" \
     && pyproj sync -v --file us_nga_egm96_15 \
-    && make -C s2p test
+    && make -C s2p-hd test
 
 # Install cars
 RUN pip install cars
@@ -49,8 +49,7 @@ RUN git clone https://github.com/micmacIGN/micmac.git \
 
 # Install demcompare
 RUN pip install -U setuptools setuptools_scm wheel
-RUN git clone https://github.com/CNES/demcompare.git \
-    && pip install ./demcompare
+RUN pip install -e ./demcompare
 
 # Set PATH for ASP and MicMac
 ENV PATH="/workspace/asp/bin:/workspace/micmac/bin:$PATH"
