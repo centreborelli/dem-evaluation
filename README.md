@@ -5,6 +5,15 @@ The Dockerfile can be used to install several pipelines, such as Nasa's ASP, CNE
 
 The functions in `comparison.py` can be used to compute statistics for the DSM reconstructions of each method. The code used to compare DSMs to ground truths is dicretly inspired from the library [demcompare](https://github.com/CNES/demcompare.git) which we thank. 
 
+## Installation
+
+You need to install the demcompare library from this repository:
+
+    git clone https://github.com/centreborelli/dem-evaluation.git
+    cd dem-evaluation
+    pip install -e ./demcompare
+
+
 ## References
 
 If you use this software please cite the following paper:
