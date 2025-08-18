@@ -243,7 +243,7 @@ def eval_cars(path_img1, path_img2, path_gt_dsm, output_dir, roi=None,
 def eval_s2p(path_img1, path_img2, path_gt_dsm, output_dir, roi=None,
              use_srtm=False, dsm_resolution=0.5, gpu_total_memory=None, 
              rectification_method='rpc', census_ncc_win=5, logfile=True,
-             tile_size=200, pct_max_processes=0.9, matching_algo='mgm',
+             tile_size=200, pct_max_processes=0.9, pct_max_processes_matching=None, matching_algo='mgm',
              timeout=600, postprocess_stereosgm_gpu=True, vertical_margin=5, 
              return_pct_nodata=True, **kwargs):
     
@@ -288,6 +288,7 @@ def eval_s2p(path_img1, path_img2, path_gt_dsm, output_dir, roi=None,
     cfg['tile_size'] = tile_size
     cpu_count = multiprocessing.cpu_count()
     cfg['max_processes'] = int(pct_max_processes*cpu_count)
+    cfg['max_processes_stereo_matching'] = int(pct_max_processes_matching*cpu_count)
 
     tmp_path_to_config = os.path.join(FILE_DIR, 'configs/s2p_tmp.json')
     with open(tmp_path_to_config, 'w') as f:
@@ -304,7 +305,7 @@ def eval_s2p(path_img1, path_img2, path_gt_dsm, output_dir, roi=None,
     if os.path.exists(os.path.join(output_dir, 'dsm-filtered.tif')):
         path_to_pred = os.path.join(output_dir, 'dsm-filtered.tif')
     else:
-        os.path.join(output_dir, 'dsm.tif')
+        path_to_pred = os.path.join(output_dir, 'dsm.tif')
     run_comparison_ = path_gt_dsm is not None
     rmse, pct_nodata = compare_dsms(output_dir, path_to_pred, path_gt_dsm, return_pct_nodata, run_comparison_=run_comparison_)
 

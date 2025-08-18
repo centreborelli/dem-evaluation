@@ -27,7 +27,7 @@ from setuptools import setup
 
 try:
     setup(
-        use_scm_version={'root':'..'}
+        use_scm_version={'root':'..'}, version='1.0.0'
     )
 except Exception:
     print(
